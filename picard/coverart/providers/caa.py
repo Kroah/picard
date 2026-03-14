@@ -303,6 +303,7 @@ class CoverArtProviderCaa(CoverArtProvider):
                     # if image has no type set, we still want it to match
                     # pseudo type 'unknown'
                     if not image['types']:
+                        # handle unknown as front
                         image['types'] = ['front']
                     else:
                         image['types'] = [t.lower() for t in image['types']]
