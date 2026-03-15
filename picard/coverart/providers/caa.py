@@ -329,7 +329,7 @@ class CoverArtProviderCaa(CoverArtProvider):
                         coverartimage = self.coverartimage_class(
                             url,
                             types=image['types'],
-                            is_front=image['front'],
+                            is_front=image['front'] or image['unknown'],
                             comment=image['comment'],
                         )
                         if urls and is_pdf:
@@ -338,7 +338,7 @@ class CoverArtProviderCaa(CoverArtProvider):
                             thumbnail = self.coverartimage_thumbnail_class(
                                 url=urls[0],
                                 types=image['types'],
-                                is_front=image['front'],
+                                is_front=image['front'] or image['unknown'],
                                 comment=image['comment'],
                             )
                             self.queue_put(thumbnail)
@@ -348,7 +348,7 @@ class CoverArtProviderCaa(CoverArtProvider):
                         self.queue_put(coverartimage)
                         if config.setting['save_only_one_front_image'] and \
                                 config.setting['save_images_to_files'] and \
-                                image['front']:
+                                (image['front'] or image['unknown']):
                             break
             except (AttributeError, KeyError, TypeError) as e:
                 self.error("CAA JSON error: %s" % e)
